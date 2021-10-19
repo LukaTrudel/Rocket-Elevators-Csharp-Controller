@@ -77,16 +77,16 @@ namespace Commercial_Controller
         }
 
         //Simulate when a user press a button on a floor to go back to the first floor
-        public void requestElevator(int userPosition, string direction)
+        public Elevator requestElevator(int userPosition, string direction)
         {
             Console.WriteLine($"||Passenger requests elevator from {userPosition} going {direction} to the lobby||");
             Elevator elevator = this.findElevator(userPosition, direction);
             Console.WriteLine($"||{elevator.ID} is the assigned elevator for this request||");
-            elevator.floorRequestList.Add(1);
+            elevator.floorRequestsList.Add(1);
             elevator.sortFloorList();
             elevator.move();
             elevator.operateDoors();
-    
+            return elevator;    
         }
     //     SEQUENCE requestElevator USING userPosition AND direction
     //     SET elevator TO CALL THIS findElevator WITH userPosition AND direction RETURNING elevator
@@ -97,7 +97,7 @@ namespace Commercial_Controller
     //     CALL elevator move
 
     // ENDSEQUENCE
-        public void findElevator(int requestedFloor, string requestedDirection)
+        public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             
             Hashtable bestElevatorInfo = new Hashtable(){

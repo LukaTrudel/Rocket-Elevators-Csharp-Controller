@@ -12,14 +12,16 @@ namespace Commercial_Controller
         public int currentFloor;
         public string direction;
         public Door door;
-        public List<int> floorRequestList;
+        public List<int> floorRequestsList;
+        public List<int> completedRequestsList;
         public Elevator(string _elevatorID)
         {
             this.ID = _elevatorID;
             this.status = "online";
             this.direction = "";
             this.door = new Door();
-            this.floorRequestList = new List<int>();
+            this.floorRequestsList = new List<int>();
+            completedRequestsList = new List<int>();
             
         }
 
@@ -30,13 +32,13 @@ namespace Commercial_Controller
     // SET amountOfFloors TO _amountOfFloors
     // SET currentFloor TO _currentFloor
     // SET Door TO NEW Door WITH _id AND closed
-    // SET floorRequestList TO EMPTY ARRAY
+    // SET floorRequestsList TO EMPTY ARRAY
     // SET direction TO null
     // SET overweight TO false
         public void move()
         {
-            while(floorRequestList.Count != 0){
-                int destination = floorRequestList[0];
+            while(floorRequestsList.Count != 0){
+                int destination = floorRequestsList[0];
                 status = "moving";
                 if(currentFloor < destination){
                     direction = "up";
@@ -51,7 +53,7 @@ namespace Commercial_Controller
                     }
                 }
                 status = "idle";
-                floorRequestList.RemoveAt(0);
+                floorRequestsList.RemoveAt(0);
             }
 
         }
@@ -59,10 +61,10 @@ namespace Commercial_Controller
         public void sortFloorList()
         {
             if(direction == "up"){
-               floorRequestList.Sort();
+               floorRequestsList.Sort();
            }
            else{
-               floorRequestList.Reverse();
+               floorRequestsList.Reverse();
            }
 
         }
@@ -85,8 +87,8 @@ namespace Commercial_Controller
         }
 
     //     SEQUENCE addNewRequest USING requestedFloor
-    //     IF THIS floorRequestList DOES NOT CONTAIN requestedFloor THEN
-    //         ADD requestedFloor TO THIS floorRequestList
+    //     IF THIS floorRequestsList DOES NOT CONTAIN requestedFloor THEN
+    //         ADD requestedFloor TO THIS floorRequestsList
     //     ENDIF
 
     //     IF THIS currentFloor < requestedFloor THEN

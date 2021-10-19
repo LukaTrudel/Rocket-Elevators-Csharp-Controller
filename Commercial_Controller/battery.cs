@@ -176,9 +176,15 @@ namespace Commercial_Controller
                     bestColumn = column;
                 }
             }
-            return bestColumn;
-            
+            return bestColumn;  
         }
+    //     SEQUENCE findBestColumn USING _requestedFloor RETURNING column
+    //     FOR EACH column IN THIS columnsList
+    //         IF column servedFloorsList CONTAINS _requestedFloor
+    //             RETURN column
+    //         ENDIF
+    //     ENDFOR
+    // ENDSEQUENCE
         //Simulate when a user press a button at the lobby
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
@@ -186,9 +192,10 @@ namespace Commercial_Controller
             Elevator elevator = column.findElevator(1, _direction);
             elevator.currentFloor = 1;
             elevator.operateDoors();
-            elevator.floorRequestList.Add(_requestedFloor);
+            elevator.floorRequestsList.Add(_requestedFloor);
             elevator.sortFloorList();
             elevator.move();
+            return (column, elevator);
         }
 
     //     SEQUENCE assignElevator USING _requestedFloor AND _direction
