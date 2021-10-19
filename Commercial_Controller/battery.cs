@@ -15,6 +15,8 @@ namespace Commercial_Controller
         public int servedFloors;
         public int columnID = 1;
         public int floorRequestButtonID = 1;
+
+        public int floor;
         public List<Column> columnsList;
         public List<FloorRequestButton> floorRequestButtonsList;
 
@@ -42,7 +44,7 @@ namespace Commercial_Controller
         public void createBasementColumn(int amountOfBasements, int amountOfElevatorPerColumn)
         {
             List<int> servedFloors = new List<int>();
-            int floor = -1;
+            this.floor = -1;
     
             for (int i = 0; i < amountOfBasements; i++)
             {
@@ -55,10 +57,11 @@ namespace Commercial_Controller
 
         public void createColumns(int amountOfColumns, int amountOfFloors, int amountOfElevatorPerColumn){
             int amountOfFloorsPerColumn = (int)Math.Ceiling((double)amountOfFloors / amountOfColumns);
-            int floor = 1;
+            this.floor = 1;
 
-            for (int i = 1; i <= amountOfColumns; i++){ 
+            for (int i = 0; i <= amountOfColumns; i++){ 
                 List<int> servedFloors = new List<int>(); 
+                
                 for (int n = 0; n < amountOfFloorsPerColumn; n++){
                     if(floor <= amountOfFloors){
                         servedFloors.Add(floor);
@@ -69,10 +72,10 @@ namespace Commercial_Controller
                 columnID++;
             }
         }    
-        public void createFloorRequestButtons(int amountOfFloors)
+        public void createFloorRequestButtons(int _amountOfFloors)
         {
             int buttonFloor = 1;
-            for (int i = 1; i <= amountOfFloors; i++)
+            for (int i = 0; i < _amountOfFloors; i++)
             {
                 floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "up"));
                 buttonFloor++;
@@ -80,10 +83,10 @@ namespace Commercial_Controller
             }
         }
 
-        public void createBasementFloorRequestButtons(int amountOfBasements)
+        public void createBasementFloorRequestButtons(int _amountOfBasements)
         {
             int buttonFloor = -1;
-            for (int i = 1; i <= amountOfBasements; i++)
+            for (int i = 1; i <= _amountOfBasements; i++)
             {
                 floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "down"));
                 buttonFloor--;
@@ -123,13 +126,16 @@ namespace Commercial_Controller
         //Simulate when a user press a button at the lobby
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
-            Column column = this.findBestColumn(_requestedFloor);
-            Elevator elevator = column.findElevator(1, _direction);
-            elevator.floorRequestsList.Add(_requestedFloor);
-            elevator.sortFloorList();
-            elevator.move();
-            elevator.operateDoors();
-            return (column, elevator);
+            Column chosenColumn = this.findBestColumn(_requestedFloor);
+            Elevator chosenElevator = chosenColumn.findElevator(1, _direction);
+            //elevator.floorRequestsList.Add(_requestedFloor);
+            //elevator.sortFloorList();
+            chosenElevator.addNewRequest(1);
+            chosenElevator.move();
+            chosenElevator.addNewRequest(_requestedFloor);
+            chosenElevator.move();
+            chosenElevator.operateDoors();
+            return (chosenColumn, chosenElevator);
         }
 
     //     SEQUENCE assignElevator USING _requestedFloor AND _direction

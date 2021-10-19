@@ -37,26 +37,57 @@ namespace Commercial_Controller
     // SET overweight TO false
         public void move()
         {
-            while(floorRequestsList.Count != 0){
-                int destination = floorRequestsList[0];
-                status = "moving";
-                if(currentFloor < destination){
-                    direction = "up";
-                    while(currentFloor < destination){
-                        currentFloor++;
+            while (this.floorRequestsList.Count != 0) {
+                int destination = this.floorRequestsList[0];
+                this.status = "moving";
+                if (this.currentFloor < destination) {
+                    this.direction = "up";
+                    this.sortFloorList();
+                    while (this.currentFloor < destination) {
+                        this.currentFloor++;
+                        //this.screenDisplay = this.currentFloor;
                     }
                 }
-                else if(currentFloor > destination){
-                    direction = "down";
-                    while(currentFloor > destination){
-                        currentFloor--;
+                else if (this.currentFloor > destination) {
+                    this.direction = "down";
+                    this.sortFloorList();
+                    while (this.currentFloor > destination) {
+                        this.currentFloor--;
+                        //this.screenDisplay = this.currentFloor;
                     }
                 }
-                status = "idle";
-                floorRequestsList.RemoveAt(0);
+                this.status = "stopped";
+                this.operateDoors();
+                this.completedRequestsList.Add(this.floorRequestsList[0]);
+                this.floorRequestsList.RemoveAt(0);
             }
-
+            this.status = "idle";
         }
+    //     SEQUENCE move  
+    //     WHILE THIS requestList IS NOT empty
+    //         SET destination TO first element of THIS requestList
+    //         SET THIS status TO moving
+    //         IF THIS currentFloor IS LESS THAN destination THEN
+    //             SET THIS direction TO up
+    //             CALL THIS sortFloorList
+    //             WHILE THIS currentFloor IS LESS THAN destination
+    //                 INCREMENT THIS currentFloor
+    //                 SET THIS screenDisplay TO THIS currentFloor
+    //             ENDWHILE
+    //         ELSE IF THIS currentFloor IS GREATER THAN destination THEN
+    //             SET THIS direction TO down
+    //             CALL THIS sortFloorList
+    //             WHILE THIS currentFloor IS LESS THAN destination
+    //                 DECREMENT THIS currentFloor
+    //                 SET THIS screenDisplay TO THIS currentFloor
+    //             ENDWHILE
+    //         ENDIF
+    //         SET THIS status TO stopped
+    //         CALL THIS operateDoors
+    //         REMOVE first element OF THIS requestList
+    //     ENDWHILE
+    //     SET THIS status TO idle
+    // ENDSEQUENCE
 
         public void sortFloorList()
         {
@@ -81,8 +112,21 @@ namespace Commercial_Controller
 
         }
 
-        public void addNewRequest()
+        public void addNewRequest(int requestedFloor)
         {
+            if (!floorRequestsList.Contains(requestedFloor))
+            {
+                this.floorRequestsList.Add(requestedFloor);
+            }
+            else if(currentFloor < requestedFloor)
+            {
+                this.direction = "up";
+            }
+            else if(currentFloor > requestedFloor)
+            {
+                this.direction = "down";
+
+            }
 
         }
 

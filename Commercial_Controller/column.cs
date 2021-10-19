@@ -45,7 +45,7 @@ namespace Commercial_Controller
         
         public void createCallButtons(int amountOfFloors, bool isBasement){
             int callButtonID = 1;
-            if (isBasement == true)
+            if (isBasement)
             {
                 int buttonFloor = -1;
                 for(int i = 0; i < amountOfFloors; i++){
@@ -63,6 +63,25 @@ namespace Commercial_Controller
                 }
             }
         }
+    //     SEQUENCE createCallButtons USING _amountOfFloors AND _isBasement
+    //     IF _isBasement THEN
+    //         SET buttonFloor TO -1
+    //         FOR _amountOfFloors
+    //             SET callButton TO NEW CallButton WITH callButtonID AND OFF AND buttonFloor AND Up
+    //             ADD callButton TO THIS callButtonsList
+    //             DECREMENT buttonFloor
+    //             INCREMENT callButtonID
+    //         ENDFOR
+    //     ELSE
+    //         SET buttonFloor TO 1
+    //         FOR _amountOfFloors
+    //             SET callButton TO NEW CallButton WITH callButtonID AND OFF AND buttonFloor AND Down
+    //             ADD callButton TO THIS callButtonsList
+    //             INCREMENT buttonFloor
+    //             INCREMENT callButtonID
+    //         ENDFOR
+    //     ENDIF
+    // ENDSEQUENCE
 
         public void createElevators(int amountOfFloors, int amountOfElevators)
         {
@@ -78,13 +97,12 @@ namespace Commercial_Controller
         public Elevator requestElevator(int userPosition, string direction)
         {
             Console.WriteLine($"||Passenger requests elevator from {userPosition} going {direction} to the lobby||");
-            Elevator elevator = findElevator(userPosition, direction);
-            Console.WriteLine($"||{elevator.ID} is the assigned elevator for this request||");
-            elevator.floorRequestsList.Add(1);
-            elevator.sortFloorList();
-            elevator.move();
-            elevator.operateDoors();
-            return elevator;    
+            Elevator chosenElevator = this.findElevator(userPosition, direction);
+            Console.WriteLine($"||{chosenElevator.ID} is the assigned elevator for this request||");
+            chosenElevator.addNewRequest(userPosition);
+            chosenElevator.move();
+            chosenElevator.addNewRequest(1);
+            return chosenElevator;    
         }
     //     SEQUENCE requestElevator USING userPosition AND direction
     //     SET elevator TO CALL THIS findElevator WITH userPosition AND direction RETURNING elevator
@@ -104,7 +122,7 @@ namespace Commercial_Controller
                 {"referenceGap", int.MaxValue}
             };
             if(requestedFloor == 1){
-                foreach(Elevator elevator in elevatorsList){
+                foreach(Elevator elevator in this.elevatorsList){
                     if(1 == elevator.currentFloor && elevator.status == "stopped"){
                         bestElevatorInfo = checkIfElevatorIsBetter(1, elevator, requestedFloor, bestElevatorInfo);
                     }
@@ -142,6 +160,7 @@ namespace Commercial_Controller
                     else{
                         bestElevatorInfo = checkIfElevatorIsBetter(5, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    
                 }
             }
             return (Elevator)bestElevatorInfo["bestElevator"];
@@ -164,6 +183,7 @@ namespace Commercial_Controller
         }
         
     }
+    
 
 
         
