@@ -28,129 +28,65 @@ namespace Commercial_Controller
             this.columnsList = new List<Column>();
             this.floorRequestButtonsList = new List<FloorRequestButton>();
 
+            if (this.amountOfBasements > 0){
+                createBasementFloorRequestButtons(_amountOfBasements);
+                createBasementColumn(this.amountOfBasements, _amountOfElevatorPerColumn);
+                _amountOfColumns--;
+            }
+            createFloorRequestButtons(_amountOfFloors);
+            createColumns(amountOfColumns, this.amountOfFloors, amountOfBasements, amountOfElevatorPerColumn);
+
         }
 
-    //     SET ID TO _id
-    // SET status TO 'online' 
-    // SET columnsList TO EMPTY ARRAY
-    // SET floorRequestsButtonsList TO EMPTY ARRAY
-
-    // IF _amountOfBasements IS GREATER THAN 0 THEN
-    //     CALL THIS createBasementFloorRequestButtons WITH _amountOfBasements
-    //     CALL THIS createBasementColumn WITH _amountOfBasements AND _amountOfElevatorPerColumn
-    //     DECREMENT _amountOfColumns
-    // ENDIF   
-
-    // CALL THIS createFloorRequestButtons WITH _amountOfFloors
-    // CALL THIS createColumns WITH _amountOfColumns AND _amountOfFloors AND _amountOfElevatorPerColumn
-        public void createBasementColumn(int amountOfBasements, int amountOfElevatorPerColumn)
+        public void createBasementColumn(int _amountOfBasements, int amountOfElevatorPerColumn)
         {
-            List<int> servedFloors = new List<int>(amountOfBasements + 1);
+            List<int> servedFloors = new List<int>();
             int floor = -1;
-            for (int i = 0; i < (amountOfBasements + 1); i++)
+    
+            for (int i = 0; i < amountOfBasements; i++)
             {
-                if (i == 0)
-                {
-                    servedFloors[i] = 1;
-                }
-                else
-                {
-                    servedFloors[i] = floor;
-                    floor--;
-                }
+                servedFloors.Add(floor);
+                floor--;
             }
-
-            var column = new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, true);
-            columnsList.Add(column);
+            columnsList.Add(new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, true));
             columnID++;
         }
 
-    //     SEQUENCE createBasementColumn USING _amountOfBasements AND _amountOfElevatorPerColumn
-    //     INIT servedFloors TO EMPTY ARRAY
-    //     SET floor TO -1 
-    //     FOR _amountOfBasements
-    //         ADD floor TO servedFloors
-    //         DECREMENT floor
-    //     ENDFOR
-        
-    //     SET column TO NEW Column WITH columnID AND online AND _amountOfBasements AND _amountOfElevatorPerColumn AND servedFloors AND true
-    //     ADD column TO THIS columnsList
-    //     INCREMENT columnID
-    // ENDSEQUENCE
-
-        public void createColumns(int amountOfColumns, int amountOfFloors, int amountOfElevatorPerColumn)
-        {
-            int amountOfFloorsPerColumn = (int)Math.Ceiling((double)(amountOfFloors / amountOfColumns));
+        public void createColumns(int amountOfColumns, int amountOfFloors, int amountOfBasements, int amountOfElevatorPerColumn){
+            int amountOfFloorsPerColumn = (int)Math.Ceiling((double)amountOfFloors / amountOfColumns);
             int floor = 1;
-            for (int i = 0; i < amountOfColumns; i++)
-            {
-                List<int> servedFloors = new List<int>(amountOfFloorsPerColumn + 1);
-                for (int x = 0; x < amountOfFloorsPerColumn; x++)
-                {
-                    if (i == 0)
-                    {
-                        servedFloors[x] = floor;
-                        floor++;
-                    }
-                    else
-                    {
-                        servedFloors[0] = 1;
-                        servedFloors[x + 1] = floor;
+
+            for (int i = 1; i <= amountOfColumns; i++){ 
+                List<int> servedFloors = new List<int>(); 
+                for (int n = 0; n < amountOfFloorsPerColumn; n++){
+                    if(floor <= amountOfFloors){
+                        servedFloors.Add(floor);
                         floor++;
                     }
                 }
-                var column = new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, false);
-                columnsList.Add(column);
+                columnsList.Add(new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, false));
                 columnID++;
             }
-        }
-    //     SEQUENCE createColumns USING _amountOfColumns AND _amountOfFloors AND _amountOfBasements AND _amountOfElevatorPerColumn
-    //     SET amountOfFloorsPerColumn TO ROUND UP (_amountOfFloors / _amountOfColumns) 
-    //     SET floor TO 1
-
-    //     FOR _amountOfColumns
-    //         SET servedFloors TO EMPTY ARRAY
-    //         FOR amountOfFloorsPerColumn
-    //             IF floor IS LESS OR EQUAL TO _amountOfFloors
-    //                 ADD floor TO servedFloors
-    //                 INCREMENT floor
-    //             ENDIF
-    //         ENDFOR
-
-    //         SET column TO NEW Column WITH columnID AND online AND _amountOfFloors AND _amountOfElevatorPerColumn AND servedFloors AND false
-    //         ADD column TO THIS columnsList
-    //         INCREMENT columnID
-    //     ENDFOR
-    // ENDSEQUENCE
+        }    
         public void createFloorRequestButtons(int amountOfFloors)
         {
             int buttonFloor = 1;
-            for (int i = 0; i < amountOfFloors; i++)
+            for (int i = 1; i <= amountOfFloors; i++)
             {
-                var floorRequestButton = new FloorRequestButton(floorRequestButtonID, "up");
-                floorRequestButtonsList.Add(floorRequestButton);
+                floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "up"));
+                //floorRequestButtonsList.Add(floorRequestButton);
                 buttonFloor++;
                 floorRequestButtonID++;
             }
         }
 
-    //     SEQUENCE createFloorRequestButtons USING _amountOfFloors
-    //     SET buttonFloor TO 1
-    //     FOR _amountOfFloors
-    //         SET floorRequestButton TO NEW FloorRequestButton WITH floorRequestButtonID AND OFF AND buttonFloor AND Up
-    //         ADD floorRequestButton TO THIS floorButtonsList
-    //         INCREMENT buttonFloor
-    //         INCREMENT floorRequestButtonID
-    //     ENDFOR
-    // ENDSEQUENCE
-
         public void createBasementFloorRequestButtons(int amountOfBasements)
         {
             int buttonFloor = -1;
-            for (int i = 0; i < amountOfBasements; i++)
+            for (int i = 1; i <= amountOfBasements; i++)
             {
-                var floorRequestButton = new FloorRequestButton(floorRequestButtonID, "down");
-                floorRequestButtonsList.Add(floorRequestButton);
+                floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "down"));
+                //floorRequestButtonsList.Add(floorRequestButton);
                 buttonFloor--;
                 floorRequestButtonID++;
             }
@@ -190,11 +126,10 @@ namespace Commercial_Controller
         {
             Column column = this.findBestColumn(_requestedFloor);
             Elevator elevator = column.findElevator(1, _direction);
-            elevator.currentFloor = 1;
-            elevator.operateDoors();
             elevator.floorRequestsList.Add(_requestedFloor);
             elevator.sortFloorList();
             elevator.move();
+            elevator.operateDoors();
             return (column, elevator);
         }
 

@@ -38,40 +38,60 @@ namespace Commercial_Controller
     // CALL THIS createElevators USING _amountOfFloors AND _amountOfElevators 
     // CALL THIS createCallButtons USING _amountOfFloors AND _isBasement
 
-        public void createCallButtons(int floorsServed, int amountOfBasements, bool isBasement)
-        {
+        // public void createCallButtons(int floorsServed, int amountOfBasements, bool isBasement)
+        // {
+        //     int callButtonID = 1;
+        //     if (isBasement)
+        //     {
+        //         int buttonFloor = -1;
+        //         for (int i = 0; i < amountOfBasements; i++)
+        //         {
+        //             var callButton = new CallButton(buttonFloor, "up");
+        //             callButtonsList.Add(callButton);
+        //             buttonFloor--;
+        //             callButtonID++;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         int buttonFloor = 1;
+        //         foreach (int floor in servedFloors)
+        //         {
+        //             var callButton = new CallButton(floor, "down");
+        //             callButtonsList.Add(callButton);
+        //             buttonFloor++;
+        //             callButtonID++;
+        //         }
+        //     }
+        // }
+        public void createCallButtons(int amountOfFloors, bool isBasement){
             int callButtonID = 1;
-            if (isBasement)
+            if (isBasement == true)
             {
                 int buttonFloor = -1;
-                for (int i = 0; i < amountOfBasements; i++)
-                {
-                    var callButton = new CallButton(buttonFloor, "up");
-                    callButtonsList.Add(callButton);
+                for(int i = 0; i < amountOfFloors; i++){
+                    callButtonsList.Add(new CallButton(buttonFloor, "up"));
                     buttonFloor--;
                     callButtonID++;
                 }
             }
-            else
-            {
+            else{
                 int buttonFloor = 1;
-                foreach (int floor in servedFloors)
-                {
-                    var callButton = new CallButton(floor, "down");
-                    callButtonsList.Add(callButton);
+                for(int i = 0; i < amountOfFloors; i++){
+                    callButtonsList.Add(new CallButton(buttonFloor, "down"));
                     buttonFloor++;
                     callButtonID++;
                 }
             }
         }
 
-        public void createElevators(int[] servedFloors, int amountOfElevators)
+        public void createElevators(int amountOfFloors, int amountOfElevators)
         {
             int elevatorID = 1;
             for (int i = 0; i < amountOfElevators; i++)
             {
-                var elevator = new Elevator(elevatorID.ToString());
-                elevatorsList.Add(elevator);
+                elevatorsList.Add(new Elevator(elevatorID.ToString()));
+                //elevatorsList.Add(elevator);
                 elevatorID++;
             }
         }
@@ -80,7 +100,7 @@ namespace Commercial_Controller
         public Elevator requestElevator(int userPosition, string direction)
         {
             Console.WriteLine($"||Passenger requests elevator from {userPosition} going {direction} to the lobby||");
-            Elevator elevator = this.findElevator(userPosition, direction);
+            Elevator elevator = findElevator(userPosition, direction);
             Console.WriteLine($"||{elevator.ID} is the assigned elevator for this request||");
             elevator.floorRequestsList.Add(1);
             elevator.sortFloorList();
