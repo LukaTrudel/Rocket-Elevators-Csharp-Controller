@@ -9,6 +9,7 @@ namespace Commercial_Controller
         public string ID;
         public string status;
         public int amountOfElevators;
+        public int amountOfFloors;
         
         public bool isBasement;
         public List<int> servedFloors;
@@ -23,6 +24,9 @@ namespace Commercial_Controller
             this.elevatorsList = new List<Elevator>();
             this.callButtonsList = new List<CallButton>();
             this.servedFloors = _servedFloors;  
+            
+            this.createElevators(amountOfFloors, amountOfElevators);
+            this.createCallButtons(amountOfFloors, isBasement);
         }
 
     //     DEFINE Column USING _id AND _status AND _amountOfFloors AND _amountOfElevators AND _servedFloors AND _isBasement
@@ -38,32 +42,7 @@ namespace Commercial_Controller
     // CALL THIS createElevators USING _amountOfFloors AND _amountOfElevators 
     // CALL THIS createCallButtons USING _amountOfFloors AND _isBasement
 
-        // public void createCallButtons(int floorsServed, int amountOfBasements, bool isBasement)
-        // {
-        //     int callButtonID = 1;
-        //     if (isBasement)
-        //     {
-        //         int buttonFloor = -1;
-        //         for (int i = 0; i < amountOfBasements; i++)
-        //         {
-        //             var callButton = new CallButton(buttonFloor, "up");
-        //             callButtonsList.Add(callButton);
-        //             buttonFloor--;
-        //             callButtonID++;
-        //         }
-        //     }
-        //     else
-        //     {
-        //         int buttonFloor = 1;
-        //         foreach (int floor in servedFloors)
-        //         {
-        //             var callButton = new CallButton(floor, "down");
-        //             callButtonsList.Add(callButton);
-        //             buttonFloor++;
-        //             callButtonID++;
-        //         }
-        //     }
-        // }
+        
         public void createCallButtons(int amountOfFloors, bool isBasement){
             int callButtonID = 1;
             if (isBasement == true)
@@ -91,7 +70,6 @@ namespace Commercial_Controller
             for (int i = 0; i < amountOfElevators; i++)
             {
                 elevatorsList.Add(new Elevator(elevatorID.ToString()));
-                //elevatorsList.Add(elevator);
                 elevatorID++;
             }
         }
@@ -225,31 +203,7 @@ namespace Commercial_Controller
 //                 SET referenceGap TO bestElevatorInformations referenceGap
 //             ENDFOR
 //         ELSE
-//             FOR EACH elevator IN THIS elevatorsList
-//                 '//The elevator is at the same level as me, and is about to depart to the first floor
-//                 IF requestedFloor EQUALS elevator currentFloor AND elevator status EQUALS stopped AND requestedDirection EQUALS elevator direction THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 1 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is lower than me and is going up. I'm on a basement, and the elevator can pick me up on it's way
-//                 ELSE IF requestedFloor IS GREATER THAN elevator currentFloor AND elevator direction EQUALS up AND requestedDirection EQUALS up THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 2 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is higher than me and is going down. I'm on a floor, and the elevator can pick me up on it's way
-//                 ELSE IF requestedFloor IS LESS THAN elevator currentFloor AND elevator direction EQUALS down AND requestedDirection EQUALS down THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 2 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is idle and has no requests
-//                 ELSE IF elevator status EQUALS idle THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 4 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is not available, but still could take the call if nothing better is found
-//                 ELSE 
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 5 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 ENDIF
-//                 SET bestElevator TO bestElevatorInformations bestElevator
-//                 SET bestScore TO bestElevatorInformations bestScore
-//                 SET referenceGap TO bestElevatorInformations referenceGap
-//             ENDFOR
-//         ENDIF
-//         RETURN bestElevator
-//     ENDSEQUENCE
-
+//
 //     SEQUENCE checkIfElevatorIsBetter USING scoreToCheck AND newElevator AND bestScore AND referenceGap AND bestElevator AND floor RETURNING bestElevatorInformations
 //         IF scoreToCheck IS LESS THAN bestScore THEN
 //             SET bestScore TO scoreToCheck

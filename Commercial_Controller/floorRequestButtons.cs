@@ -9,6 +9,8 @@ namespace Commercial_Controller
         public string direction;
         public FloorRequestButton(int _floor, string _direction)
         {
+            this.floor = _floor;
+            this.direction = _direction;
             
         }
     }

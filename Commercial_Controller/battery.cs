@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace Commercial_Controller
 {
     public class Battery
@@ -29,16 +30,16 @@ namespace Commercial_Controller
             this.floorRequestButtonsList = new List<FloorRequestButton>();
 
             if (this.amountOfBasements > 0){
-                createBasementFloorRequestButtons(_amountOfBasements);
-                createBasementColumn(this.amountOfBasements, _amountOfElevatorPerColumn);
-                _amountOfColumns--;
+                createBasementFloorRequestButtons(amountOfBasements);
+                createBasementColumn(this.amountOfBasements, amountOfElevatorPerColumn);
+                amountOfColumns--;
             }
-            createFloorRequestButtons(_amountOfFloors);
-            createColumns(amountOfColumns, this.amountOfFloors, amountOfBasements, amountOfElevatorPerColumn);
+            createFloorRequestButtons(amountOfFloors);
+            createColumns(amountOfColumns, this.amountOfFloors, amountOfElevatorPerColumn);
 
         }
 
-        public void createBasementColumn(int _amountOfBasements, int amountOfElevatorPerColumn)
+        public void createBasementColumn(int amountOfBasements, int amountOfElevatorPerColumn)
         {
             List<int> servedFloors = new List<int>();
             int floor = -1;
@@ -52,7 +53,7 @@ namespace Commercial_Controller
             columnID++;
         }
 
-        public void createColumns(int amountOfColumns, int amountOfFloors, int amountOfBasements, int amountOfElevatorPerColumn){
+        public void createColumns(int amountOfColumns, int amountOfFloors, int amountOfElevatorPerColumn){
             int amountOfFloorsPerColumn = (int)Math.Ceiling((double)amountOfFloors / amountOfColumns);
             int floor = 1;
 
@@ -74,7 +75,6 @@ namespace Commercial_Controller
             for (int i = 1; i <= amountOfFloors; i++)
             {
                 floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "up"));
-                //floorRequestButtonsList.Add(floorRequestButton);
                 buttonFloor++;
                 floorRequestButtonID++;
             }
@@ -86,7 +86,6 @@ namespace Commercial_Controller
             for (int i = 1; i <= amountOfBasements; i++)
             {
                 floorRequestButtonsList.Add(new FloorRequestButton(floorRequestButtonID, "down"));
-                //floorRequestButtonsList.Add(floorRequestButton);
                 buttonFloor--;
                 floorRequestButtonID++;
             }

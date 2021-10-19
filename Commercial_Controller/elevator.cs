@@ -21,7 +21,7 @@ namespace Commercial_Controller
             this.direction = "";
             this.door = new Door();
             this.floorRequestsList = new List<int>();
-            completedRequestsList = new List<int>();
+            this.completedRequestsList = new List<int>();
             
         }
 
