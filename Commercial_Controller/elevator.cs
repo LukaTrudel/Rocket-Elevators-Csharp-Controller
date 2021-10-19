@@ -35,8 +35,67 @@ namespace Commercial_Controller
     // SET overweight TO false
         public void move()
         {
+            while(floorRequestList.Count != 0){
+                int destination = floorRequestList[0];
+                status = "moving";
+                if(currentFloor < destination){
+                    direction = "up";
+                    while(currentFloor < destination){
+                        currentFloor++;
+                    }
+                }
+                else if(currentFloor > destination){
+                    direction = "down";
+                    while(currentFloor > destination){
+                        currentFloor--;
+                    }
+                }
+                status = "idle";
+                floorRequestList.RemoveAt(0);
+            }
 
         }
+
+        public void sortFloorList()
+        {
+            if(direction == "up"){
+               floorRequestList.Sort();
+           }
+           else{
+               floorRequestList.Reverse();
+           }
+
+        }
+
+    //     SEQUENCE sortFloorList
+    //     IF THIS direction EQUALS up THEN
+    //         SORT THIS requestList ASCENDING
+    //     ELSE 
+    //         SORT THIS requestList DESCENDING
+    //     ENDIF
+    // ENDSEQUENCE
+        public void operateDoors()
+        {
+
+        }
+
+        public void addNewRequest()
+        {
+
+        }
+
+    //     SEQUENCE addNewRequest USING requestedFloor
+    //     IF THIS floorRequestList DOES NOT CONTAIN requestedFloor THEN
+    //         ADD requestedFloor TO THIS floorRequestList
+    //     ENDIF
+
+    //     IF THIS currentFloor < requestedFloor THEN
+    //         SET THIS direction TO up
+    //     ENDIF
+    //     IF THIS currentFloor > requestedFloor THEN
+    //         SET THIS direction TO down
+    //     ENDIF
+    // ENDSEQUENCE
         
     }
 }

@@ -60,7 +60,7 @@ namespace Commercial_Controller
                 }
             }
 
-            var column = new Column(columnID, amountOfElevatorPerColumn, servedFloors, true);
+            var column = new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, true);
             columnsList.Add(column);
             columnID++;
         }
@@ -99,7 +99,7 @@ namespace Commercial_Controller
                         floor++;
                     }
                 }
-                var column = new Column(columnID, amountOfElevatorPerColumn, servedFloors, false);
+                var column = new Column(columnID.ToString(), amountOfElevatorPerColumn, servedFloors, false);
                 columnsList.Add(column);
                 columnID++;
             }
@@ -182,14 +182,13 @@ namespace Commercial_Controller
         //Simulate when a user press a button at the lobby
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
-            int? tempFloor = null;
             Column column = this.findBestColumn(_requestedFloor);
             Elevator elevator = column.findElevator(1, _direction);
             elevator.currentFloor = 1;
-            Door.operateDoors();
+            elevator.operateDoors();
             elevator.floorRequestList.Add(_requestedFloor);
             elevator.sortFloorList();
-            elevator.move(tempFloor);
+            elevator.move();
         }
 
     //     SEQUENCE assignElevator USING _requestedFloor AND _direction

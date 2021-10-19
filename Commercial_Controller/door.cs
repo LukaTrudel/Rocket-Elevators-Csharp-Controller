@@ -6,8 +6,7 @@ namespace Commercial_Controller
         public string status;
         public Door()
         {
-            this.ID = ID;
-            this.status = status;
+            
         }
     }
 }
