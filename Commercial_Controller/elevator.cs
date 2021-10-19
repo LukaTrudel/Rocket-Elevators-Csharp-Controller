@@ -25,16 +25,6 @@ namespace Commercial_Controller
             
         }
 
-    //     DEFINE Elevator USING _id AND _status AND _amountOfFloors AND _currentFloor
-    // '//---------------------------------Initialization--------------------------------------------//
-    // SET ID TO _id
-    // SET status TO _status
-    // SET amountOfFloors TO _amountOfFloors
-    // SET currentFloor TO _currentFloor
-    // SET Door TO NEW Door WITH _id AND closed
-    // SET floorRequestsList TO EMPTY ARRAY
-    // SET direction TO null
-    // SET overweight TO false
         public void move()
         {
             while (this.floorRequestsList.Count != 0) {
@@ -63,31 +53,6 @@ namespace Commercial_Controller
             }
             this.status = "idle";
         }
-    //     SEQUENCE move  
-    //     WHILE THIS requestList IS NOT empty
-    //         SET destination TO first element of THIS requestList
-    //         SET THIS status TO moving
-    //         IF THIS currentFloor IS LESS THAN destination THEN
-    //             SET THIS direction TO up
-    //             CALL THIS sortFloorList
-    //             WHILE THIS currentFloor IS LESS THAN destination
-    //                 INCREMENT THIS currentFloor
-    //                 SET THIS screenDisplay TO THIS currentFloor
-    //             ENDWHILE
-    //         ELSE IF THIS currentFloor IS GREATER THAN destination THEN
-    //             SET THIS direction TO down
-    //             CALL THIS sortFloorList
-    //             WHILE THIS currentFloor IS LESS THAN destination
-    //                 DECREMENT THIS currentFloor
-    //                 SET THIS screenDisplay TO THIS currentFloor
-    //             ENDWHILE
-    //         ENDIF
-    //         SET THIS status TO stopped
-    //         CALL THIS operateDoors
-    //         REMOVE first element OF THIS requestList
-    //     ENDWHILE
-    //     SET THIS status TO idle
-    // ENDSEQUENCE
 
         public void sortFloorList()
         {
@@ -100,13 +65,6 @@ namespace Commercial_Controller
 
         }
 
-    //     SEQUENCE sortFloorList
-    //     IF THIS direction EQUALS up THEN
-    //         SORT THIS requestList ASCENDING
-    //     ELSE 
-    //         SORT THIS requestList DESCENDING
-    //     ENDIF
-    // ENDSEQUENCE
         public void operateDoors()
         {
 
@@ -127,21 +85,6 @@ namespace Commercial_Controller
                 this.direction = "down";
 
             }
-
         }
-
-    //     SEQUENCE addNewRequest USING requestedFloor
-    //     IF THIS floorRequestsList DOES NOT CONTAIN requestedFloor THEN
-    //         ADD requestedFloor TO THIS floorRequestsList
-    //     ENDIF
-
-    //     IF THIS currentFloor < requestedFloor THEN
-    //         SET THIS direction TO up
-    //     ENDIF
-    //     IF THIS currentFloor > requestedFloor THEN
-    //         SET THIS direction TO down
-    //     ENDIF
-    // ENDSEQUENCE
-        
     }
 }

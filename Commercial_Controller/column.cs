@@ -28,20 +28,6 @@ namespace Commercial_Controller
             this.createElevators(amountOfFloors, amountOfElevators);
             this.createCallButtons(amountOfFloors, isBasement);
         }
-
-    //     DEFINE Column USING _id AND _status AND _amountOfFloors AND _amountOfElevators AND _servedFloors AND _isBasement
-    // '//---------------------------------Initialization--------------------------------------------//
-    // SET ID TO _id
-    // SET status TO _status 
-    // SET amountOfFloors TO _amountOfFloors
-    // SET amountOfElevators TO _amountOfElevators
-    // SET elevatorsList TO EMPTY ARRAY
-    // SET callButtonsList TO EMPTY ARRAY
-    // SET servedFloorsList TO _servedFloors
-
-    // CALL THIS createElevators USING _amountOfFloors AND _amountOfElevators 
-    // CALL THIS createCallButtons USING _amountOfFloors AND _isBasement
-
         
         public void createCallButtons(int amountOfFloors, bool isBasement){
             int callButtonID = 1;
@@ -63,25 +49,7 @@ namespace Commercial_Controller
                 }
             }
         }
-    //     SEQUENCE createCallButtons USING _amountOfFloors AND _isBasement
-    //     IF _isBasement THEN
-    //         SET buttonFloor TO -1
-    //         FOR _amountOfFloors
-    //             SET callButton TO NEW CallButton WITH callButtonID AND OFF AND buttonFloor AND Up
-    //             ADD callButton TO THIS callButtonsList
-    //             DECREMENT buttonFloor
-    //             INCREMENT callButtonID
-    //         ENDFOR
-    //     ELSE
-    //         SET buttonFloor TO 1
-    //         FOR _amountOfFloors
-    //             SET callButton TO NEW CallButton WITH callButtonID AND OFF AND buttonFloor AND Down
-    //             ADD callButton TO THIS callButtonsList
-    //             INCREMENT buttonFloor
-    //             INCREMENT callButtonID
-    //         ENDFOR
-    //     ENDIF
-    // ENDSEQUENCE
+    
 
         public void createElevators(int amountOfFloors, int amountOfElevators)
         {
@@ -104,15 +72,7 @@ namespace Commercial_Controller
             chosenElevator.addNewRequest(1);
             return chosenElevator;    
         }
-    //     SEQUENCE requestElevator USING userPosition AND direction
-    //     SET elevator TO CALL THIS findElevator WITH userPosition AND direction RETURNING elevator
-    //     CALL elevator addNewRequest WITH _requestedFloor
-    //     CALL elevator move
-
-    //     CALL elevator addNewRequest WITH 1 '//Always 1 because the user can only go back to the lobby
-    //     CALL elevator move
-
-    // ENDSEQUENCE
+    
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
             
@@ -180,69 +140,6 @@ namespace Commercial_Controller
                 }
             }
             return bestElevatorInfo;
-        }
-        
-    }
-    
-
-
-        
-//     '//We use a score system depending on the current elevators state. Since the bestScore and the referenceGap are 
-//     '//higher values than what could be possibly calculated, the first elevator will always become the default bestElevator, 
-//     '//before being compared with to other elevators. If two elevators get the same score, the nearest one is prioritized. Unlike
-//     '//the classic algorithm, the logic isn't exactly the same depending on if the request is done in the lobby or on a floor.
-//     SEQUENCE findElevator USING requestedFloor AND requestedDirection RETURNING bestElevator
-//         INIT bestElevator
-//         SET bestScore TO 6
-//         SET referenceGap TO 10000000
-//         INIT bestElevatorInformations
-
-//         IF requestedFloor EQUALS 1 THEN
-//             FOR EACH elevator IN THIS elevatorsList
-//                 '//The elevator is at the lobby and already has some requests. It is about to leave but has not yet departed
-//                 IF 1 EQUALS elevator currentFloor AND elevator status EQUALS stopped THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 1 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is at the lobby and has no requests
-//                 ELSE IF 1 EQUALS elevator currentFloor AND elevator status EQUALS idle THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 2 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is lower than me and is coming up. It means that I'm requesting an elevator to go to a basement, and the elevator is on it's way to me.
-//                 ELSE IF 1 IS GREATER THAN elevator currentFloor AND elevator direction EQUALS up THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 3 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is above me and is coming down. It means that I'm requesting an elevator to go to a floor, and the elevator is on it's way to me
-//                 ELSE IF 1 IS LESS THAN elevator currentFloor AND elevator direction EQUALS down THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 3 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is not at the first floor, but doesn't have any request
-//                 ELSE IF elevator status EQUALS idle THEN
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 4 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 '//The elevator is not available, but still could take the call if nothing better is found
-//                 ELSE 
-//                     SET bestElevatorInformations TO CALL THIS checkIfElevatorIsBetter WITH 5 AND elevator AND bestScore AND referenceGap AND bestElevator AND requestedFloor RETURNING bestElevatorInformations
-//                 ENDIF
-//                 SET bestElevator TO bestElevatorInformations bestElevator
-//                 SET bestScore TO bestElevatorInformations bestScore
-//                 SET referenceGap TO bestElevatorInformations referenceGap
-//             ENDFOR
-//         ELSE
-//
-//     SEQUENCE checkIfElevatorIsBetter USING scoreToCheck AND newElevator AND bestScore AND referenceGap AND bestElevator AND floor RETURNING bestElevatorInformations
-//         IF scoreToCheck IS LESS THAN bestScore THEN
-//             SET bestScore TO scoreToCheck
-//             SET bestElevator TO newElevator
-//             SET referenceGap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
-//         ELSE IF bestScore EQUALS scoreToCheck
-//             SET gap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
-//             IF referenceGap IS GREATER THAN gap THEN
-//                 SET bestElevator TO newElevator
-//                 SET referenceGap TO gap
-//             ENDIF
-//         ENDIF
-//         RETURN bestElevator AND bestScore AND referenceGap AS bestElevatorInformations
-//     ENDSEQUENCE
-
-// ENDDEFINE '//Column
-    
-            
-
-    
-    
+        } 
+    }     
 }
