@@ -1,4 +1,4 @@
-#Welcome to Rocket Elevators!
+## Welcome to Rocket Elevators!
 
 This program simulates a commercial elevator controller that can be set up in a building with any number of batteries, columns, elevators or floors.
 
