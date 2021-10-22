@@ -1,32 +1,25 @@
-# Rocket-Elevators-Csharp-Controller
-This is the template to use for the C# commercial controller. In the Commercial_Controller folder, you will find the classes that should be used along with some methods described in the requirements. The necessary files to run some tests are also included, in the Commercial_Controller.Tests folder.
+#Welcome to Rocket Elevators!
 
-### Installation
+This program simulates a commercial elevator controller that can be set up in a building with any number of batteries, columns, elevators or floors.
 
-As long as you have **.NET 5.0** installed on your computer, nothing more needs to be installed:
+In the scenarios provided, we use a building of 66 floors including 6 basements served by 4 columns of 5 cages each. The floors are separated amongst the columns in the following way: B6 to B1, 2 to 20, 21 to 40, 41 to 60.
 
-The code to run the scenarios is included in the Commercial_Controller folder, and can be executed there with:
+All the columns serve the 1st floor (Lobby). 
+
+There are no floor buttons inside the elevators. Instead, there is a panel at the Lobby with which the users select where they want to go.
+The client is then sent to the column that serves the requested floor, they enter the elevator that was selected for them and the algorithm makes sure that they reach their destination.
+
+Since there are no floor buttons inside the elevators, users that are on a floor cannot select where they want to go and must imperatively go back to the Lobby.
+
+---------------RUN YOUR OWN TEST!---------------
+
+The code to run the scenarios is included in the Rocket_Elevators_Csharp_Controller folder, and can be executed there with:
 
 `dotnet run <SCENARIO-NUMBER>`
 
-### Running the tests
 
 To launch the tests, make sure to be at the root of the repository and run:
 
 `dotnet test`
 
-With a fully completed project, you should get an output like:
 
-![Screenshot from 2021-06-15 17-31-02](https://user-images.githubusercontent.com/28630658/122128889-3edfa500-ce03-11eb-97d0-df0cc6a79fed.png)
-
-You can also get more details about each test by adding the `-v n` flag: 
-
-`dotnet test -v n` 
-
-which should give something like: 
-
-![Screenshot from 2021-06-15 18-00-52](https://user-images.githubusercontent.com/28630658/122129140-a8f84a00-ce03-11eb-8807-33d7eab8c387.png)
-
-Make sure to only edit files in the Commercial_Controller folder. The test and scenarios files can be left in your final project. The grader will run tests similar to the ones provided.
-
-Of course, make sure to edit this Readme file to describe your own project!

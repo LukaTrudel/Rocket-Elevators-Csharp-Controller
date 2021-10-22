@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Collections.Generic;
 
-namespace Commercial_Controller
+namespace Rocket_Elevators_Csharp_Controller
 {
     public class Elevator
     
@@ -11,10 +11,13 @@ namespace Commercial_Controller
         public List<int> servedFloors;
         public int currentFloor;
         public string direction;
+        public bool overweight;
+        public bool obstructed;
         public Door door;
         public List<int> floorRequestsList;
         public List<int> completedRequestsList;
         public Elevator(string _elevatorID)
+        
         {
             this.ID = _elevatorID;
             this.status = "online";
@@ -67,6 +70,24 @@ namespace Commercial_Controller
 
         public void operateDoors()
         {
+            this.door.status = "opened";
+
+            if (!this.overweight) {
+                this.door.status = "closing";
+                if (!this.obstructed) {
+                    this.door.status = "closed";
+                }
+                else {
+                    this.operateDoors();
+                }
+            }
+
+            else {
+                while(this.overweight) {
+                    //ALARM STARTS
+                }
+                this.operateDoors();
+            }
 
         }
 

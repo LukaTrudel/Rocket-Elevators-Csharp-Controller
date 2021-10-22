@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Commercial_Controller.Tests
+namespace Rocket_Elevators_Csharp_Controller.Tests
 {
     [TestClass]
     public class UnitTest1

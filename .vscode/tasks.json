@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Commercial_Controller/Commercial_Controller.csproj",
+                "${workspaceFolder}/Rocket_Elevators_Csharp_Controller/Rocket_Elevators_Csharp_Controller.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Commercial_Controller/Commercial_Controller.csproj",
+                "${workspaceFolder}/Rocket_Elevators_Csharp_Controller/Rocket_Elevators_Csharp_Controller.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Commercial_Controller/Commercial_Controller.csproj",
+                "${workspaceFolder}/Rocket_Elevators_Csharp_Controller/Rocket_Elevators_Csharp_Controller.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
