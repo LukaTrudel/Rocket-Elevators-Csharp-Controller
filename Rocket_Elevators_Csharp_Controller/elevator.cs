@@ -13,6 +13,7 @@ namespace Rocket_Elevators_Csharp_Controller
         public string direction;
         public bool overweight;
         public bool obstructed;
+        public int screenDisplay;
         public Door door;
         public List<int> floorRequestsList;
         public List<int> completedRequestsList;
@@ -38,7 +39,7 @@ namespace Rocket_Elevators_Csharp_Controller
                     this.sortFloorList();
                     while (this.currentFloor < destination) {
                         this.currentFloor++;
-                        //this.screenDisplay = this.currentFloor;
+                        this.screenDisplay = this.currentFloor;
                     }
                 }
                 else if (this.currentFloor > destination) {
@@ -46,7 +47,7 @@ namespace Rocket_Elevators_Csharp_Controller
                     this.sortFloorList();
                     while (this.currentFloor > destination) {
                         this.currentFloor--;
-                        //this.screenDisplay = this.currentFloor;
+                        this.screenDisplay = this.currentFloor;
                     }
                 }
                 this.status = "stopped";
