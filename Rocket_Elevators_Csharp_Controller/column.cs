@@ -72,6 +72,11 @@ namespace Rocket_Elevators_Csharp_Controller
             chosenElevator.addNewRequest(1);
             return chosenElevator;    
         }
+
+        //We use a score system depending on the current elevators state. Since the bestScore and the referenceGap are 
+        //higher values than what could be possibly calculated, the first elevator will always become the default bestElevator, 
+        //before being compared with to other elevators. If two elevators get the same score, the nearest one is prioritized. Unlike
+        //the classic algorithm, the logic isn't exactly the same depending on if the request is done in the lobby or on a floor.
     
         public Elevator findElevator(int requestedFloor, string requestedDirection)
         {
@@ -83,21 +88,29 @@ namespace Rocket_Elevators_Csharp_Controller
             };
             if(requestedFloor == 1){
                 foreach(Elevator elevator in this.elevatorsList){
+                    //The elevator is at the lobby and already has some requests. It is about to leave but has not yet departed
                     if(1 == elevator.currentFloor && elevator.status == "stopped"){
                         bestElevatorInfo = checkIfElevatorIsBetter(1, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is at the lobby and has no requests
                     else if(1 == elevator.currentFloor && elevator.status == "idle"){
                         bestElevatorInfo = checkIfElevatorIsBetter(2, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is lower than me and is coming up.
+                    //It means that I'm requesting an elevator to go to a basement, and the elevator is on it's way to me.
                     else if(1 > elevator.currentFloor && elevator.direction == "up"){
                         bestElevatorInfo = checkIfElevatorIsBetter(3, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is above me and is coming down.
+                    //It means that I'm requesting an elevator to go to a floor, and the elevator is on it's way to me
                     else if(1 < elevator.currentFloor && elevator.direction == "down"){
                         bestElevatorInfo = checkIfElevatorIsBetter(3, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is not at the first floor, but doesn't have any request
                     else if(elevator.status == "idle"){
                         bestElevatorInfo = checkIfElevatorIsBetter(4, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is not available, but still could take the call if nothing better is found
                     else{
                         bestElevatorInfo = checkIfElevatorIsBetter(5, elevator, requestedFloor, bestElevatorInfo);
                     }
@@ -105,22 +118,26 @@ namespace Rocket_Elevators_Csharp_Controller
             }
             else{
                 foreach(Elevator elevator in elevatorsList){
+                    //The elevator is at the same level as me, and is about to depart to the first floor
                     if(requestedFloor == elevator.currentFloor && elevator.status == "idle" && requestedDirection == elevator.direction){
                         bestElevatorInfo = checkIfElevatorIsBetter(1, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is lower than me and is going up. I'm on a basement, and the elevator can pick me up on it's way
                     else if(requestedFloor > elevator.currentFloor  && elevator.direction == "up" && requestedDirection == elevator.direction){
                         bestElevatorInfo = checkIfElevatorIsBetter(2, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is higher than me and is going down. I'm on a floor, and the elevator can pick me up on it's way
                     else if(requestedFloor < elevator.currentFloor  && elevator.direction == "down" && requestedDirection == elevator.direction){
                         bestElevatorInfo = checkIfElevatorIsBetter(2, elevator, requestedFloor, bestElevatorInfo);
                     }
+                    //The elevator is idle and has no requests
                     else if(elevator.status == "stopped"){
                         bestElevatorInfo = checkIfElevatorIsBetter(4, elevator, requestedFloor, bestElevatorInfo);
                     }
                     else{
+                        //The elevator is not available, but still could take the call if nothing better is found
                         bestElevatorInfo = checkIfElevatorIsBetter(5, elevator, requestedFloor, bestElevatorInfo);
-                    }
-                    
+                    } 
                 }
             }
             return (Elevator)bestElevatorInfo["bestElevator"];

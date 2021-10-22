@@ -94,16 +94,6 @@ namespace Rocket_Elevators_Csharp_Controller
             }
         }
 
-    //     SEQUENCE createBasementFloorRequestButtons USING _amountOfBasements
-    //     SET buttonFloor TO -1
-    //     FOR _amountOfBasements
-    //         SET floorRequestButton TO NEW FloorRequestButton WITH floorRequestButtonID AND OFF AND buttonFloor AND Down
-    //         ADD floorRequestButton TO THIS floorButtonsList
-    //         DECREMENT buttonFloor
-    //         INCREMENT floorRequestButtonID
-    //     ENDFOR
-    // ENDSEQUENCE
-
         public Column findBestColumn(int _requestedFloor)
         {
             Column bestColumn = null;
@@ -116,20 +106,12 @@ namespace Rocket_Elevators_Csharp_Controller
             }
             return bestColumn;  
         }
-    //     SEQUENCE findBestColumn USING _requestedFloor RETURNING column
-    //     FOR EACH column IN THIS columnsList
-    //         IF column servedFloorsList CONTAINS _requestedFloor
-    //             RETURN column
-    //         ENDIF
-    //     ENDFOR
-    // ENDSEQUENCE
+
         //Simulate when a user press a button at the lobby
         public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
         {
             Column chosenColumn = this.findBestColumn(_requestedFloor);
             Elevator chosenElevator = chosenColumn.findElevator(1, _direction);
-            //elevator.floorRequestsList.Add(_requestedFloor);
-            //elevator.sortFloorList();
             chosenElevator.addNewRequest(1);
             chosenElevator.move();
             chosenElevator.addNewRequest(_requestedFloor);
@@ -137,16 +119,6 @@ namespace Rocket_Elevators_Csharp_Controller
             chosenElevator.operateDoors();
             return (chosenColumn, chosenElevator);
         }
-
-    //     SEQUENCE assignElevator USING _requestedFloor AND _direction
-    //     SET column TO THIS findBestColumn WITH _requestedFloor RETURNING column
-    //     SET elevator TO CALL column findElevator WITH 1 AND _direction RETURNING bestElevator '// The floor is always 1 because that request is always made from the lobby.
-    //     CALL elevator addNewRequest WITH 1
-    //     CALL elevator move
-
-    //     CALL elevator addNewRequest WITH _requestedFloor
-    //     CALL elevator move
-    // ENDSEQUENCE
     }
 }
 
